@@ -2,16 +2,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{form|crispy}}
+    {% include 'add_form.html' with title='New assignment' %}
 
-        <input type="submit" class="btn btn-primary">
-
-    </form>
-    {% if message %}
-        {{msg}}
-    {% endif %}
     <table class="table table-striped">
         <thead>
             <tr>

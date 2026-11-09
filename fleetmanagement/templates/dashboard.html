@@ -1,0 +1,63 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+    <!-- 1. Greeting -->
+    <div class="welcome">
+        <h2>Hello, {{ user.username }} 👋</h2>
+        <p>Here's a quick look at your fleet today.</p>
+    </div>
+
+    <!-- 2. One card per section, showing how many records it has -->
+    <div class="stat-grid">
+        {% for card in cards %}
+            <a class="stat-card" href="{% url card.link %}">
+                <span class="stat-emoji">{{ card.emoji }}</span>
+                <span class="stat-count">{{ card.count }}</span>
+                <span class="stat-title">{{ card.title }}</span>
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- 3. Shortcuts to the most common tasks -->
+    <h3 class="section-title">Quick actions</h3>
+    <div class="quick-actions">
+        <a class="btn btn-primary" href="{% url 'car_page' %}?add=1">+ Add a car</a>
+        <a class="btn btn-outline" href="{% url 'staff_page' %}?add=1">+ Add staff</a>
+        <a class="btn btn-outline" href="{% url 'assignment_page' %}?add=1">Assign a driver</a>
+        <a class="btn btn-outline" href="{% url 'fuelling_page' %}?add=1">Log fuel</a>
+    </div>
+
+    <!-- 4. Cars whose insurance needs renewing soon -->
+    <h3 class="section-title">Insurance expiring soon</h3>
+    {% if expiring_cars %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Number plate</th>
+                    <th>Car</th>
+                    <th>Insurance expires</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in expiring_cars %}
+                    <tr>
+                        <td>{{ car.number_plate }}</td>
+                        <td>{{ car.Brand }} {{ car.Model }}</td>
+                        <td>
+                            {{ car.Expiry_insurance }}
+                            {% if car.Expiry_insurance < today %}
+                                <span class="tag tag-red">Expired</span>
+                            {% else %}
+                                <span class="tag tag-orange">Soon</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="all-good">✅ All cars are insured for at least the next 30 days.</p>
+    {% endif %}
+
+{% endblock content %}

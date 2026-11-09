@@ -2,14 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{form|crispy}}
-        <input type="submit" class="btn btn-primary">
-    </form>   
-    {% if msg %} 
-        {{msg}}
-    {% endif %}
+    {% include 'add_form.html' with title='Add car' %}
 
     <table class="table table-striped">
             <thead>

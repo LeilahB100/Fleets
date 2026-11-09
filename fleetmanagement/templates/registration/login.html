@@ -1,30 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-    {% load crispy_forms_tags %}
-    {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'gentelella/fleet-bridge.css' %}">
-</head>
-<body>
-    <nav>
-            <ul>
-                <li id="head">FLEET MANAGEMENT SYSTEM</li>
-                <a href="{% url 'sign_up_page' %}"><li>Sign Up</li></a>
-                <a href="{% url 'login' %}"><li>Login</li></a>
-                </li></a>
-                        
-            </ul>
-        </nav>
-    <div>
-        <form method="post">
-            {% csrf_token %}
-            {{form|crispy}}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+{% extends 'registration/auth_base.html' %}
+{% load crispy_forms_tags %}
 
-</body>
-</html>
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+    <h1>Welcome back!</h1>
+    <p class="auth-sub">Log in to check on your fleet 🚗</p>
+
+    {% if request.GET.signed_up %}
+        <div class="alert success">Account created! You can log in now 🎉</div>
+    {% endif %}
+
+    <form method="post" data-demo-submit="false">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="auth-btn">Log in</button>solid
+    </form>
+
+    <p class="auth-switch">New here? <a href="{% url 'sign_up_page' %}">Create an account</a></p>
+{% endblock %}

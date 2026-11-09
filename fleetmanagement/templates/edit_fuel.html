@@ -3,15 +3,15 @@
 
 {% block content %}
     <h1>Edit - {{fuel.id}}</h1>
-    <form method="post">
+    <form method="post" data-demo-submit="false">
         {% csrf_token %}
         {{form|crispy}}
 
         <input type="submit" class="btn btn-primary">
-        <input type="button" class="btn btn-danger">
+        <a href="{% url 'fuelling_page' %}" class="btn btn-danger">Cancel</a>
 
-        {% if message %}
-            {{message}}
+        {% if msg %}
+            <div class="alert alert-info mt-3">{{msg}}</div>
         {% endif %}
     </form>
 

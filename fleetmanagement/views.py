@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from fleetmanagement.forms import CarForm, StaffForm, AssigningForm, FuellingForm, Repair_issuesForm, Service_issuesForm, Repair_recordsForm, Service_recordsForm
@@ -6,7 +7,26 @@ from fleetmanagement.models import Car, Staff, Assigning, Fuelling, Repair_issue
 
 @login_required
 def home_view(request):
-    return render(request, 'home.html')
+    # One card per section: title, how many records it has, and the page it links to
+    cards = [
+        {'title': 'Cars', 'emoji': '🚗', 'count': Car.objects.count(), 'link': 'car_page'},
+        {'title': 'Staff', 'emoji': '👷', 'count': Staff.objects.count(), 'link': 'staff_page'},
+        {'title': 'Assignments', 'emoji': '📋', 'count': Assigning.objects.count(), 'link': 'assignment_page'},
+        {'title': 'Fuel records', 'emoji': '⛽', 'count': Fuelling.objects.count(), 'link': 'fuelling_page'},
+        {'title': 'Repair issues', 'emoji': '🔧', 'count': Repair_issues.objects.count(), 'link': 'repair_issues_page'},
+        {'title': 'Service issues', 'emoji': '🛠️', 'count': Service_issues.objects.count(), 'link': 'service_issues_page'},
+    ]
+
+    # Cars whose insurance has expired or will expire in the next 30 days
+    in_30_days = date.today() + timedelta(days=30)
+    expiring_cars = Car.objects.filter(Expiry_insurance__lte=in_30_days).order_by('Expiry_insurance')
+
+    context = {
+        'cards': cards,
+        'expiring_cars': expiring_cars,
+        'today': date.today(),
+    }
+    return render(request, 'dashboard.html', context)
 
 @login_required
 def car_form(request):
@@ -40,7 +60,7 @@ def edit_car(request, car_id):
 
         if car_form.is_valid():
             car_form.save()
-            message = "Changes saved successfully"
+            return redirect('car_page')
         else:
             message = "Form has invalid data"
 
@@ -69,7 +89,7 @@ def staff_form(request):
 
         if staffform.is_valid():
             staffform.save()
-            message = 'Staff added successfully'
+            return redirect('staff_page')
 
     else:
         staffform = StaffForm()
@@ -93,7 +113,7 @@ def edit_staff(request, staff_id):
 
         if staffform.is_valid():
             staffform.save()
-            message = "Changes saved sucessfully"
+            return redirect('staff_page')
 
         else:
             message = "Form has invalid data"
@@ -123,18 +143,18 @@ def assign_form(request):
 
         if assignform.is_valid():
             assignform.save()
-            message = 'Staff assigned successfully'
+            return redirect('assignment_page')
 
     else:
         assignform = AssigningForm()
 
-    assign = Assigning.objects.all()   
+    assign = Assigning.objects.all()
 
     context = {
         'form' : assignform,
         'msg' : message,
         'assign' : assign
-    } 
+    }
     return render(request, 'assignment.html', context)
 
 @login_required
@@ -147,19 +167,19 @@ def edit_assignment(request, assignmentid):
 
         if assignmentform.is_valid():
             assignmentform.save()
-            message = 'Changes are saved successfully'
+            return redirect('assignment_page')
 
         else:
             message = 'Form has invalid data'
 
     else:
-        assignmentform = AssigningForm()
+        assignmentform = AssigningForm(instance=assignment)
 
     context = {
         'form' : assignmentform,
         'msg' : message,
         'assignment' : assignment
-    } 
+    }
     return render(request, "edit_assignment.html", context)
 
 
@@ -178,18 +198,18 @@ def repair_issues_form(request):
 
         if repairissuesform.is_valid():
             repairissuesform.save()
-            message = 'Repair issue has been submitted successfully'
+            return redirect('repair_issues_page')
 
     else:
         repairissuesform = Repair_issuesForm()
 
-    repairissues = Repair_issues.objects.all()   
+    repairissues = Repair_issues.objects.all()
 
     context = {
         'form' : repairissuesform,
         'msg' : message,
         'repairissues' : repairissues
-    } 
+    }
     return render(request, 'repairissues.html', context)
 
 
@@ -203,19 +223,19 @@ def edit_repair_issues(request, repairissuesid):
 
         if repairissuesform.is_valid():
             repairissuesform.save()
-            message = 'Changes are saved successfully'
+            return redirect('repair_issues_page')
 
         else:
             message = 'Form has invalid data'
 
     else:
-        repairissuesform = Repair_issuesForm()
+        repairissuesform = Repair_issuesForm(instance=repairissues)
 
     context = {
         'form' : repairissuesform,
         'msg' : message,
         'repairissues' : repairissues
-    } 
+    }
     return render(request, "edit_repair_issues.html", context)
 
 @login_required
@@ -235,19 +255,19 @@ def edit_repair_records(request, repairrecordsid):
 
         if repairrecordsform.is_valid():
             repairrecordsform.save()
-            message = 'Changes are saved successfully'
+            return redirect('repair_records_page')
 
         else:
             message = 'Form has invalid data'
 
     else:
-        repairrecordsform = Repair_recordsForm()
+        repairrecordsform = Repair_recordsForm(instance=repairrecords)
 
     context = {
         'form' : repairrecordsform,
         'msg' : message,
         'repairrecords' : repairrecords
-    } 
+    }
     return render(request, "edit_repair_records.html", context)
 
 @login_required
@@ -258,18 +278,18 @@ def repair_records_form(request):
 
         if repairrecordsform.is_valid():
             repairrecordsform.save()
-            message = 'Repair records have been submitted successfully'
+            return redirect('repair_records_page')
 
     else:
         repairrecordsform = Repair_recordsForm()
 
-    repairrecords = Repair_records.objects.all()   
+    repairrecords = Repair_records.objects.all()
 
     context = {
         'form' : repairrecordsform,
         'msg' : message,
         'repairrecords' : repairrecords
-    } 
+    }
     return render(request, 'repairrecords.html', context)
 
 @login_required
@@ -287,18 +307,18 @@ def service_issues_form(request):
 
         if serviceissuesform.is_valid():
             serviceissuesform.save()
-            message = 'Service issue has been submitted successfully'
+            return redirect('service_issues_page')
 
     else:
         serviceissuesform = Service_issuesForm()
 
-    serviceissues = Service_issues.objects.all()   
+    serviceissues = Service_issues.objects.all()
 
     context = {
         'form' : serviceissuesform,
         'msg' : message,
         'serviceissues' : serviceissues
-    } 
+    }
     return render(request, 'serviceissues.html', context)
 
 @login_required
@@ -318,19 +338,19 @@ def edit_service_records(request, servicerecordsid):
 
         if servicerecordsform.is_valid():
             servicerecordsform.save()
-            message = 'Changes are saved successfully'
+            return redirect('service_records_page')
 
         else:
             message = 'Form has invalid data'
 
     else:
-        servicerecordsform = Service_recordsForm()
+        servicerecordsform = Service_recordsForm(instance=servicerecords)
 
     context = {
         'form' : servicerecordsform,
         'msg' : message,
         'servicerecords' : servicerecords
-    } 
+    }
     return render(request, "edit_service_records.html", context)
 
 @login_required
@@ -350,19 +370,19 @@ def edit_service_issues(request, serviceissuesid):
 
         if serviceissuesform.is_valid():
             serviceissuesform.save()
-            message = 'Changes are saved successfully'
+            return redirect('service_issues_page')
 
         else:
             message = 'Form has invalid data'
 
     else:
-        serviceissuesform = Service_issuesForm()
+        serviceissuesform = Service_issuesForm(instance=serviceissues)
 
     context = {
         'form' : serviceissuesform,
         'msg' : message,
         'serviceissues' : serviceissues
-    } 
+    }
     return render(request, "edit_service_issues.html", context)
 
 @login_required
@@ -373,18 +393,18 @@ def service_records_form(request):
 
         if servicerecordsform.is_valid():
             servicerecordsform.save()
-            message = 'service issue has been submitted successfully'
+            return redirect('service_records_page')
 
     else:
         servicerecordsform = Service_recordsForm()
 
-    servicerecords = Service_records.objects.all()   
+    servicerecords = Service_records.objects.all()
 
     context = {
         'form' : servicerecordsform,
         'msg' : message,
         'servicerecords' : servicerecords
-    } 
+    }
     return render(request, 'servicerecords.html', context)
 
 @login_required
@@ -395,18 +415,18 @@ def fuelling_form(request):
 
         if fuelform.is_valid():
             fuelform.save()
-            message = 'Fuel has been refilled'
+            return redirect('fuelling_page')
 
     else:
         fuelform = FuellingForm()
 
-    fuel = Fuelling.objects.all()   
+    fuel = Fuelling.objects.all()
 
     context = {
         'form' : fuelform,
         'msg' : message,
         'fuel' : fuel
-    } 
+    }
     return render(request, 'fuel.html', context)
 
 @login_required
@@ -419,19 +439,19 @@ def edit_fuel(request, fuelid):
 
         if fuel_form.is_valid():
             fuel_form.save()
-            message = 'Changes are saved successfully'
+            return redirect('fuelling_page')
 
         else:
             message = 'Form has invalid data'
 
     else:
-        fuel_form = FuellingForm()
+        fuel_form = FuellingForm(instance=fuel)
 
     context = {
         'form' : fuel_form,
         'msg' : message,
         'fuel' : fuel
-    } 
+    }
     return render(request, "edit_fuel.html", context)
 
 @login_required
@@ -441,7 +461,6 @@ def delete_fuel_form(request, fuel_id):
     fuel.delete()
     return redirect(fuelling_form)
 
-@login_required
 def sign_up_view(request):
     message = ''
     if request.method == 'POST':
@@ -449,10 +468,10 @@ def sign_up_view(request):
 
         if sign_up_form.is_valid():
             sign_up_form.save()
-            message = 'User created successfully'
+            return redirect(reverse('login') + '?signed_up=1')
 
         else:
-            message = 'Something went wrong'
+            message = 'Please fix the errors below'
 
     else:
         sign_up_form = UserCreationForm()
@@ -463,11 +482,3 @@ def sign_up_view(request):
     }
 
     return render(request, 'registration/sign_up.html', context)
-
-
-
-
-
-
-
-

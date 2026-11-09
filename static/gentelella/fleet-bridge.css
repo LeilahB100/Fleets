@@ -1,0 +1,67 @@
+/* Bridges crispy-forms (bootstrap5 pack) and your existing Bootstrap-style
+   classes to Gentelella v4's look. Load AFTER main-v4.css. */
+
+/* crispy wraps each field in <div class="mb-3"> */
+body{
+  background-color: rgb(235, 237, 243);
+}
+nav ul{
+    list-style-type: none;
+    color: rgb(230, 181, 181);
+    margin: 0;
+    background-color: rgb(16, 2, 54);
+    padding: 20px;
+    overflow: hidden;
+
+}
+nav a{
+    display: block;
+
+}
+nav li{
+    float: left;
+    padding-right: 60px;
+    color: whitesmoke;
+    font-weight: bolder;
+}
+    
+p{
+  font-size: 1em;
+  font-weight: bolder;
+}
+
+.mb-3 { margin-bottom: 16px; }
+.form-label .asteriskField, .asteriskField { color: var(--red); margin-inline-start: 2px; }
+
+/* crispy renders <select class="form-select"> */
+select.form-select {
+  display: block; width: 100%; height: 36px; padding: 0 32px 0 12px;
+  font: inherit; font-size: 13px; color: var(--text);
+  background-color: var(--bg-surface); border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm); outline: none; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%239ba5b1' stroke-width='1.5'%3E%3Cpath d='M3 5l3 3 3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+select.form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-lt); }
+
+/* validation messages from crispy / Django */
+.invalid-feedback, .text-danger, .errorlist { display: block; font-size: 11.5px; color: var(--red); margin-top: 4px; list-style: none; padding: 0; }
+.form-text, small.form-text { font-size: 11.5px; color: var(--text-muted); }
+.alert-danger { background: var(--red-lt); color: var(--red); }
+
+/* your tables use "table table-striped" */
+.table-striped tbody tr:nth-child(odd) { background: var(--bg-surface-secondary); }
+.table-striped { width: 100%; }
+
+/* spacing between the form and the table inside the content card */
+.fleet-content form + table, .fleet-content form + .table-responsive { margin-top: 24px; }
+.fleet-content input[type="submit"].btn { cursor: pointer; }
+.fleet-content td a, .fleet-content td a:hover { text-decoration: none; }
+.fleet-content table { display: block; overflow-x: auto; }
+.auth-links { display: flex; align-items: center; gap: 8px; }
+.auth-links form { margin: 0; }
+
+
+
+

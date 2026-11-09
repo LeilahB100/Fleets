@@ -1,0 +1,17 @@
+{% extends './home.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1>Edit - {{repairissues.id}}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+
+        <input type="submit" class="btn btn-primary">
+        <input type="button" class="btn btn-danger">
+
+        {% if message %}
+            {{message}}
+        {% endif %}
+    </form>
+{% endblock content %}

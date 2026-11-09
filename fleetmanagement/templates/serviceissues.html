@@ -1,0 +1,38 @@
+{% extends './home.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+
+        <input type="submit" class="btn btn-primary">
+    </form>
+    {% if message %}
+        {{msg}}
+    {% endif %}
+
+     <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Service Item</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Measure</th>
+                    <th scope="col">Unit Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for serviceissues in serviceissues %}
+                    <tr>
+                        <th scope="row">{{serviceissues.id}}</th>
+                        <td>{{serviceissues.service_item}}</td>
+                        <td>{{serviceissues.quantity}}</td>
+                        <td>{{serviceissues.measure}}</td>
+                        <td>{{serviceissues.unitcost}}</td>
+                        <td><a href="{% url 'edit_service_issues_page' serviceissues.id %}"><i class="fa-regular fa-pen-to-square" style="color: rgb(15, 25, 40);"></i></a></td>
+                        <td><a href="{% url 'delete_service_issues_page' serviceissues.id %}"><i class="fa-solid fa-trash" style="color: rgb(15, 25, 40);"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock content %}

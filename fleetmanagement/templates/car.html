@@ -1,0 +1,42 @@
+{% extends './home.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" class="btn btn-primary">
+    </form>   
+    {% if msg %} 
+        {{msg}}
+    {% endif %}
+
+    <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">car_type</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">number_plate</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Expiry_insurance</th>
+                    <th scope="col">Transmission</th>
+                    <th scope="col">Engine_type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in car %}
+                    <tr>
+                        <th scope="row">{{car.car_type}}</th>
+                        <td>{{car.Brand}}</td>
+                        <td>{{car.number_plate}}</td>
+                        <td>{{car.Model}}</td>
+                        <td>{{car.Expiry_insurance}}</td>
+                        <td>{{car.Transmission}}</td>
+                        <td>{{car.Engine_type}}</td>
+                        <td><a href="{% url 'edit_car_page' car.id %}"><i class="fa-regular fa-pen-to-square" style="color: rgb(15, 25, 40);"></i></a></td>
+                        <td><a href="{% url 'delete_car_page' car.id %}"><i class="fa-solid fa-trash" style="color: rgb(15, 25, 40);"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock content %}

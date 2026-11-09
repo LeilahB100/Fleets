@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load crispy_forms_tags %}
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'gentelella/fleet-bridge.css' %}">
+</head>
+<body>
+    <nav>
+            <ul>
+                <li id="head">FLEET MANAGEMENT SYSTEM</li>
+                <a href="{% url 'sign_up_page' %}"><li>Sign Up</li></a>
+                <a href="{% url 'login' %}"><li>Login</li></a>
+                </li></a>
+                        
+            </ul>
+        </nav>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>

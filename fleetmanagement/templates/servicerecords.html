@@ -1,0 +1,38 @@
+{% extends './home.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <input type="submit" class="btn btn-primary">
+    </form>
+        {% if msg %}
+            {{msg}}
+        {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Service_Id</th>
+                <th scope="col">Vehicle_Id</th>
+                <th scope="col">Service Center</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Service Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servicerecords in servicerecords %}
+                <tr>
+                    <th scope="row">{{servicerecords.Service_Id}}</th>
+                    <td>{{servicerecords.Vehicle_Id}}</td>
+                    <td>{{servicerecords.service_center}}</td>
+                    <td>{{servicerecords.cost}}</td>
+                    <td>{{servicerecords.sercice_date}}</td>
+                    <td><a href="{% url 'edit_service_records_page' servicerecords.id %}"><i class="fa-regular fa-pen-to-square" style="color: rgb(15, 25, 40);"></i></a></td>
+                    <td><a href="{% url 'delete_service_records_page' servicerecords.id %}"><i class="fa-solid fa-trash" style="color: rgb(15, 25, 40);"></i></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

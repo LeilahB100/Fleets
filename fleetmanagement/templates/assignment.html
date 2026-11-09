@@ -1,0 +1,37 @@
+{% extends './home.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+
+        <input type="submit" class="btn btn-primary">
+
+    </form>
+    {% if message %}
+        {{msg}}
+    {% endif %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Assignment Id</th>
+                <th scope="col">Staff Id</th>
+                <th scope="col">Number plate</th>
+                <th scope="col">Assignment Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assign in assign %}
+                <tr>
+                    <th scope="row">{{assign.id}}</th>
+                    <td>{{assign.staff_id}}</td>
+                    <td>{{assign.number_plate}}</td>
+                    <td>{{assign.assignment_date}}</td>
+                    <td><a href="{% url 'edit_assignment_page' assign.id %}"><i class="fa-regular fa-pen-to-square" style="color: rgb(15, 25, 40);"></i></a></td>
+                    <td><a href="{% url 'delete_assignment_page' assign.id %}"><i class="fa-solid fa-trash" style="color: rgb(15, 25, 40);"></i></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

@@ -1,0 +1,118 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Fleet Manager{% endblock %}</title>
+<link rel="icon" href="{% static 'gentelella/images/favicon.svg' %}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=t||(d?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(e){}})();</script>
+<script type="module" crossorigin src="{% static 'gentelella/js/rolldown-runtime-_5RX-BWT.js' %}"></script>
+<script type="module" crossorigin src="{% static 'gentelella/js/toast-CBtjS_PZ.js' %}"></script>
+<script type="module" crossorigin src="{% static 'gentelella/js/main-v4-BH_8D7gN.js' %}"></script>
+<link rel="stylesheet" crossorigin href="{% static 'gentelella/assets/main-v4-DB_ReeJG.css' %}">
+<link rel="stylesheet" href="{% static 'gentelella/fleet-bridge.css' %}">
+<!-- your existing tables use Font Awesome icons (edit / delete) -->
+<script src="https://kit.fontawesome.com/b7204c7722.js" crossorigin="anonymous"></script>
+{% block extra_head %}{% endblock %}
+</head>
+{% with u=request.resolver_match.url_name|default:'' %}
+<body data-shell="admin">
+
+<aside class="sidebar" aria-label="Primary navigation">
+  <div class="sidebar-brand">
+    <div class="brand-icon">F</div>
+    <div class="brand-name">Fleet Manager</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-label">Fleet</div>
+<a class="nav-link{% if u == 'home_page' %} active{% endif %}" href="{% url 'home_page' %}"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span class="nav-text">Home</span></a>
+<a class="nav-link{% if 'car' in u %} active{% endif %}" href="{% url 'car_page' %}"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/><circle cx="7.5" cy="16" r="1.2"/><circle cx="16.5" cy="16" r="1.2"/></svg><span class="nav-text">Cars</span></a>
+<a class="nav-link{% if 'staff' in u %} active{% endif %}" href="{% url 'staff_page' %}"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg><span class="nav-text">Staff</span></a>
+<a class="nav-link{% if 'assign' in u %} active{% endif %}" href="{% url 'assignment_page' %}"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/></svg><span class="nav-text">Assignments</span></a>
+<a class="nav-link{% if 'fuel' in u %} active{% endif %}" href="{% url 'fuelling_page' %}"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 21V4h9v17M3 21h13"/><path d="M14 9h2a2 2 0 012 2v5a1.5 1.5 0 003 0V8l-3-3"/><path d="M8 8h3"/></svg><span class="nav-text">Fuelling</span></a>
+<div class="nav-tree{% if 'repair' in u %} open has-active{% endif %}"><button type="button" class="nav-link nav-toggle" aria-expanded="{% if 'repair' in u %}true{% else %}false{% endif %}"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg><span class="nav-text">Repairs</span><svg class="nav-chev" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg></button><div class="nav-sub"><div class="nav-sub-inner"><a class="nav-sublink{% if 'repair' in u and 'issues' in u %} active{% endif %}" href="{% url 'repair_issues_page' %}">Repair issues</a><a class="nav-sublink{% if 'repair' in u and 'records' in u %} active{% endif %}" href="{% url 'repair_records_page' %}">Repair records</a></div></div></div>
+<div class="nav-tree{% if 'service' in u %} open has-active{% endif %}"><button type="button" class="nav-link nav-toggle" aria-expanded="{% if 'service' in u %}true{% else %}false{% endif %}"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg><span class="nav-text">Service</span><svg class="nav-chev" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg></button><div class="nav-sub"><div class="nav-sub-inner"><a class="nav-sublink{% if 'service' in u and 'issues' in u %} active{% endif %}" href="{% url 'service_issues_page' %}">Service issues</a><a class="nav-sublink{% if 'service' in u and 'records' in u %} active{% endif %}" href="{% url 'service_records_page' %}">Service records</a></div></div></div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar">{% if user.is_authenticated %}{{ user.username|first|upper }}{% else %}?{% endif %}</div>
+      <div class="sidebar-user-info">
+        <div class="name">{% if user.is_authenticated %}{{ user.username }}{% else %}Guest{% endif %}</div>
+        <div class="role">{% if user.is_authenticated %}Signed in{% else %}Not signed in{% endif %}</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{% url 'home_page' %}">Home</a><span class="sep" aria-hidden="true">&rsaquo;</span><span class="current" aria-current="page">{% block crumb %}{% if u == 'home_page' %}Home{% elif 'car' in u %}Cars{% elif 'staff' in u %}Staff{% elif 'assign' in u %}Assignments{% elif 'fuel' in u %}Fuelling{% elif 'repair' in u and 'issues' in u %}Repair issues{% elif 'repair' in u %}Repair records{% elif 'service' in u and 'issues' in u %}Service issues{% elif 'service' in u %}Service records{% elif u == 'login' %}Login{% elif 'sign' in u %}Sign up{% else %}Fleet Manager{% endif %}{% endblock %}</span> 
+    </nav>
+  </div>
+  <!-- <div class="search-box">
+    <svg class="s-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+    <input type="text" placeholder="Search pages&hellip;" aria-label="Open command palette">
+    <kbd>&#8984;K</kbd>
+  </div> -->
+  <div class="topbar-right">
+    <button class="tb-btn theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme" aria-pressed="false">
+      <svg class="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="auth-links">
+      {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" class="btn btn-outline btn-sm">Log out</button></form>
+      {% else %}
+        <a class="btn btn-outline btn-sm" href="{% url 'login' %}">Login</a>
+        <a class="btn btn-primary btn-sm" href="{% url 'sign_up_page' %}">Sign up</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<main class="main">
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div class="page-header-row">
+        <div>
+          <div class="page-pretitle">Fleet management</div>
+          <h1 class="page-title">{% block page_title %}{% if u == 'home_page' %}Home{% elif 'car' in u %}Cars{% elif 'staff' in u %}Staff{% elif 'assign' in u %}Assignments{% elif 'fuel' in u %}Fuelling{% elif 'repair' in u and 'issues' in u %}Repair issues{% elif 'repair' in u %}Repair records{% elif 'service' in u and 'issues' in u %}Service issues{% elif 'service' in u %}Service records{% elif u == 'login' %}Login{% elif 'sign' in u %}Sign up{% else %}Fleet Manager{% endif %}{% endblock %}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body fleet-content">
+        {% block content %}<h1>Welcome to the Fleet Management System!!!!!</h1><br><br><br>
+        <p>Fleet management brings vehicle tracking, maintenance, fuel and driver assignment together, so you alwaysknow where your <br><br>vehicles are and what they need. Our fleet management system is built to give fleet managers total control and visibility over their <br><br>entire fleet operation. The platform provides real time overview of your fleet status, helping you make faster and smarter decisions.</p>{% endblock content %}
+      </div>
+    </div>
+  </div>
+  <footer class="footer"><span>Fleet Manager</span><span>Themed with Gentelella v4 &middot;</span></footer>
+</main>
+{% endwith %}
+
+<!-- {# Feeds the Ctrl/Cmd+K palette with your pages instead of the demo ones #} -->
+<!-- <script type="application/json" id="gentelella-shell-config">
+{"pages": [
+  {"label": "Home", "section": "Fleet", "href": "{% url 'home_page' %}"},
+  {"label": "Cars", "section": "Fleet", "href": "{% url 'car_page' %}"},
+  {"label": "Staff", "section": "Fleet", "href": "{% url 'staff_page' %}"},
+  {"label": "Assignments", "section": "Fleet", "href": "{% url 'assignment_page' %}"},
+  {"label": "Fuelling", "section": "Fleet", "href": "{% url 'fuelling_page' %}"},
+  {"label": "Repair issues", "section": "Repairs", "href": "{% url 'repair_issues_page' %}"},
+  {"label": "Repair records", "section": "Repairs", "href": "{% url 'repair_records_page' %}"},
+  {"label": "Service issues", "section": "Service", "href": "{% url 'service_issues_page' %}"},
+  {"label": "Service records", "section": "Service", "href": "{% url 'service_records_page' %}"}
+]}
+</script> -->
+</body>
+</html>

@@ -52,8 +52,12 @@ class Fuelling(models.Model):
     station = models.CharField(choices=STATION_OPTIONS)
     quantity = models.IntegerField()
     price = models.IntegerField()
-    total_cost = models.IntegerField()
     date = models.DateField(auto_now=False)
+
+    @property
+    def total_cost(self):
+        # Calculated field: total_cost = quantity * price
+        return self.quantity * self.price
 
 class Repair_issues(models.Model):
     problem = models.CharField(max_length=20)
@@ -72,8 +76,12 @@ class Repair_records(models.Model):
     repair_id = models.ForeignKey(Repair_issues, on_delete = models.CASCADE)
     Vehicle_id = models.ForeignKey(Car, on_delete = models.CASCADE)
     repair_center = models.CharField(max_length=20, choices=PROVIDER_OPTIONS, verbose_name="Repair Center")
-    cost = models.IntegerField()
     repair_date = models.DateField(auto_now=False, verbose_name="Repair Date")
+
+    @property
+    def cost(self):
+        # Calculated field: cost = quantity * unit_cost (from the linked Repair_issues)
+        return self.repair_id.quantity * self.repair_id.unit_cost
 
 class Service_issues(models.Model):
     service_item = models.CharField(max_length=20, verbose_name="Service Item")
@@ -92,8 +100,12 @@ class Service_records(models.Model):
     Service_id = models.ForeignKey(Service_issues, on_delete = models.CASCADE)
     Vehicle_id = models.ForeignKey(Car, on_delete = models.CASCADE)
     service_center = models.CharField(max_length=20, choices=PROVIDER_OPTIONS)
-    cost = models.IntegerField()
     sercice_date = models.DateField(auto_now=False, verbose_name="Service Date")
+
+    @property
+    def cost(self):
+        # Calculated field: cost = quantity * unit_cost (from the linked Service_issues)
+        return self.Service_id.quantity * self.Service_id.unit_cost
 
 
         
